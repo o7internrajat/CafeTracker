@@ -52,6 +52,7 @@ public class UpdateCategory extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         tfCategoryUpdate = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
+        deleteBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,6 +65,13 @@ public class UpdateCategory extends javax.swing.JFrame {
             }
         });
 
+        deleteBtn.setText("Delete");
+        deleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -71,15 +79,18 @@ public class UpdateCategory extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(154, 154, 154)
+                        .addGap(139, 139, 139)
                         .addComponent(jLabel2))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addComponent(tfCategoryUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(137, Short.MAX_VALUE))
+                        .addGap(109, 109, 109)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfCategoryUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(35, 35, 35)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(122, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -87,10 +98,12 @@ public class UpdateCategory extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(tfCategoryUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addComponent(tfCategoryUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
                 .addComponent(btnUpdate)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addGap(26, 26, 26)
+                .addComponent(deleteBtn)
+                .addContainerGap(81, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,6 +136,25 @@ public class UpdateCategory extends javax.swing.JFrame {
         // }
          
     }//GEN-LAST:event_btnUpdateMouseClicked
+
+    private void deleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteBtnMouseClicked
+        // TODO add your handling code here:
+        String deleteCategory = "DELETE FROM category where id = ?";
+        try{
+            PreparedStatement ps = singletonClass.connection.prepareCall(deleteCategory);
+            ps.setInt(1,categoryModel.getId());
+            ps.executeUpdate();
+              //  if (rowsInserted > 0) {
+                    System.out.println("A user is deleted");
+                    Categories categories = new Categories();
+                    categories.setVisible(true);
+                    this.dispose();
+               // }
+                    
+        }catch(SQLException sqlException){
+            System.out.println("sqlException "+sqlException.getMessage());
+        }
+    }//GEN-LAST:event_deleteBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -161,6 +193,7 @@ public class UpdateCategory extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField tfCategoryUpdate;
     // End of variables declaration//GEN-END:variables

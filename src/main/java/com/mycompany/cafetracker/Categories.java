@@ -91,9 +91,9 @@ public class Categories extends javax.swing.JFrame {
         jScrollPane1.setViewportView(categoryTable);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(189, 0, 375, 275);
+        jScrollPane1.setBounds(210, 10, 375, 275);
         getContentPane().add(tfCategoryName);
-        tfCategoryName.setBounds(20, 80, 140, 22);
+        tfCategoryName.setBounds(20, 80, 160, 40);
 
         jLabel1.setText("Add Categories");
         getContentPane().add(jLabel1);
@@ -106,7 +106,7 @@ public class Categories extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAddCategory);
-        btnAddCategory.setBounds(50, 130, 72, 23);
+        btnAddCategory.setBounds(40, 130, 100, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
