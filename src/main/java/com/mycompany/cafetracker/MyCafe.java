@@ -31,6 +31,7 @@ public class MyCafe extends javax.swing.JFrame {
         btnBills = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(null);
 
         btnCategory.setText("Category");
         btnCategory.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -43,34 +44,21 @@ public class MyCafe extends javax.swing.JFrame {
                 btnCategoryActionPerformed(evt);
             }
         });
+        getContentPane().add(btnCategory);
+        btnCategory.setBounds(240, 60, 230, 40);
 
         btnProduct.setText("Product");
+        btnProduct.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnProductMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnProduct);
+        btnProduct.setBounds(240, 120, 230, 40);
 
         btnBills.setText("Bills");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(163, 163, 163)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnCategory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnBills, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(165, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(btnCategory)
-                .addGap(43, 43, 43)
-                .addComponent(btnProduct)
-                .addGap(48, 48, 48)
-                .addComponent(btnBills)
-                .addContainerGap(91, Short.MAX_VALUE))
-        );
+        getContentPane().add(btnBills);
+        btnBills.setBounds(240, 180, 230, 40);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -87,6 +75,11 @@ public class MyCafe extends javax.swing.JFrame {
     private void btnCategoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCategoryActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCategoryActionPerformed
+
+    private void btnProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnProductMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnProductMouseClicked
 
     /**
      * @param args the command line arguments
