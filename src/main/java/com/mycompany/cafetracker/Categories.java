@@ -50,6 +50,7 @@ public class Categories extends javax.swing.JFrame {
     }
     public Categories() {
         initComponents();
+        getCategoryList();
        
     }
 
@@ -113,6 +114,7 @@ public class Categories extends javax.swing.JFrame {
 
     private void btnAddCategoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddCategoryMouseClicked
         // TODO add your handling code here:
+       
         if(tfCategoryName.getText().toString().isEmpty()){
             JOptionPane.showMessageDialog(rootPane, "Enter Category");
         }else{
@@ -122,8 +124,8 @@ public class Categories extends javax.swing.JFrame {
             statement.setString(1,tfCategoryName.getText().toString());
              int insertData = statement.executeUpdate();
                // if(insertData > 0){
-                System.out.println("Print Data");
-                getCategoryList();
+                System.out.println("Print Data"); 
+                
             }
             catch(SQLException sqlException){
             System.out.println("sqlException"+sqlException.getMessage());

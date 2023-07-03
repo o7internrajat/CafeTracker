@@ -24,6 +24,10 @@ public class SingletonClass {
                 String createCategory = "CREATE TABLE IF NOT EXISTS category(id INT AUTO_INCREMENT, name VARCHAR(255), PRIMARY KEY(id))";
                 PreparedStatement ps = connection.prepareStatement(createCategory);
             ps.execute();
+            
+             String createProduct = "CREATE TABLE IF NOT EXISTS product(id INT AUTO_INCREMENT,cat_id INT, name VARCHAR(255), description VARCHAR(255), price DOUBLE, PRIMARY KEY(id),  FOREIGN KEY(cat_id) REFERENCES category(id))";
+             PreparedStatement psProduct = connection.prepareStatement(createProduct);
+            psProduct.execute();
             }
         }
         catch(SQLException sqlException){

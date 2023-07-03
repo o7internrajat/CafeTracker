@@ -5,6 +5,7 @@
 package com.mycompany.cafetracker;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,19 +32,21 @@ public class Product extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        tfProductName = new javax.swing.JTextField();
+        tfPrice = new javax.swing.JTextField();
         btnAddProduct = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        tfProductName1 = new javax.swing.JTextField();
+        tfDescription = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel1.setText("        Add Product");
+        jLabel1.setText("         Add Product");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(25, 55, 154, 40);
-        getContentPane().add(tfProductName);
-        tfProductName.setBounds(10, 110, 170, 40);
+        jLabel1.setBounds(20, 30, 130, 40);
+        getContentPane().add(tfPrice);
+        tfPrice.setBounds(10, 170, 150, 30);
 
         btnAddProduct.setText("Add Product");
         btnAddProduct.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -52,7 +55,7 @@ public class Product extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAddProduct);
-        btnAddProduct.setBounds(30, 180, 130, 40);
+        btnAddProduct.setBounds(30, 220, 110, 30);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -70,25 +73,47 @@ public class Product extends javax.swing.JFrame {
         getContentPane().add(jScrollPane1);
         jScrollPane1.setBounds(200, 10, 450, 360);
 
+        tfProductName1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfProductName1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(tfProductName1);
+        tfProductName1.setBounds(10, 90, 150, 30);
+        getContentPane().add(tfDescription);
+        tfDescription.setBounds(10, 130, 150, 30);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddProductMouseClicked
         // TODO add your handling code here:
-        if(tfProductName.getText().toString().isEmpty()){
+        if(tfProductName1.getText().toString().isEmpty()){
             JOptionPane.showMessageDialog(rootPane,"Enter Product");
+    }else if(tfDescription.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane,"Enter Description");
+    }else if(tfPrice.getText().toString().isEmpty()){
+            JOptionPane.showMessageDialog(rootPane,"Enter Price");
     }else{
         try{
             String insertProduct = "INSERT INTO product(name,description,price) VALUES(?,?,?)"; 
             PreparedStatement statement = singletonClass.connection.prepareCall(insertProduct);
-            statement.setString(1,tfProductName.getText().toString());
+            statement.setString(1,tfProductName1.getText().toString());
+            statement.setString(2,tfDescription.getText().toString());
+            statement.setString(3,tfPrice.getText().toString());
             statement.executeUpdate();
                // if(insertData > 0){
                 System.out.println("Print Data");
                
+        }catch(SQLException sqlException){
+            System.out.println("sqlException"+sqlException.getMessage());
         }
         }
     }//GEN-LAST:event_btnAddProductMouseClicked
+
+    private void tfProductName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfProductName1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfProductName1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,6 +155,8 @@ public class Product extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField tfProductName;
+    private javax.swing.JTextField tfDescription;
+    private javax.swing.JTextField tfPrice;
+    private javax.swing.JTextField tfProductName1;
     // End of variables declaration//GEN-END:variables
 }
