@@ -5,19 +5,52 @@
 package com.mycompany.cafetracker;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author asus
  */
 public class Product extends javax.swing.JFrame {
+    ProductModel productModel = new ProductModel();
+    ArrayList<ProductModel> productList = new ArrayList<>();
     SingletonClass singletonClass = SingletonClass.getInstance();
 
     /**
      * Creates new form Product
      */
+    public void getProduct(){
+      
+       String[] header = {"id"," Name, Description, Price"};
+       //DefaultTableModel model = new DefaultTableModel(null,header);
+       try{
+          Statement statement = singletonClass.connection.createStatement();
+           ResultSet result = statement.executeQuery("SELECT * FROM product");
+       DefaultTableModel model = new DefaultTableModel(null,header);
+        productTable.setModel(model);
+        model.setRowCount(0);
+        Object[] row = new Object[4];
+         while(result.next()){
+            productList.add(new ProductModel(result.getInt("id"), result.getString("name"),result.getString("description"),result.getDouble("price")));
+        }
+         for (ProductModel item : productList) {
+                System.out.println(item);
+                row[0] = item.getId();
+                row[1] = item.getName();
+                row[2] = item.getDescription();
+                row[3] = item.getPrice();
+                model.addRow(row);
+            }
+       }catch(SQLException sqlException){
+       System.out.println("sqlException "+ sqlException);
+      }
+    }
+    
     public Product() {
         initComponents();
     }
@@ -35,18 +68,20 @@ public class Product extends javax.swing.JFrame {
         tfPrice = new javax.swing.JTextField();
         btnAddProduct = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        productTable = new javax.swing.JTable();
         tfProductName1 = new javax.swing.JTextField();
         tfDescription = new javax.swing.JTextField();
+        comboBox = new javax.swing.JComboBox<>();
+        comboBoxItem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
-        jLabel1.setText("         Add Product");
+        jLabel1.setText("     Add Product");
         getContentPane().add(jLabel1);
-        jLabel1.setBounds(20, 30, 130, 40);
+        jLabel1.setBounds(30, 10, 130, 40);
         getContentPane().add(tfPrice);
-        tfPrice.setBounds(10, 170, 150, 30);
+        tfPrice.setBounds(20, 220, 150, 30);
 
         btnAddProduct.setText("Add Product");
         btnAddProduct.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -55,9 +90,9 @@ public class Product extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnAddProduct);
-        btnAddProduct.setBounds(30, 220, 110, 30);
+        btnAddProduct.setBounds(30, 270, 121, 30);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        productTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -68,10 +103,15 @@ public class Product extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        productTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                productTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(productTable);
 
         getContentPane().add(jScrollPane1);
-        jScrollPane1.setBounds(200, 10, 450, 360);
+        jScrollPane1.setBounds(200, 10, 480, 310);
 
         tfProductName1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -79,9 +119,15 @@ public class Product extends javax.swing.JFrame {
             }
         });
         getContentPane().add(tfProductName1);
-        tfProductName1.setBounds(10, 90, 150, 30);
+        tfProductName1.setBounds(20, 140, 150, 30);
         getContentPane().add(tfDescription);
-        tfDescription.setBounds(10, 130, 150, 30);
+        tfDescription.setBounds(20, 180, 150, 30);
+
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        getContentPane().add(comboBox);
+        comboBox.setBounds(20, 50, 150, 29);
+        getContentPane().add(comboBoxItem);
+        comboBoxItem.setBounds(20, 100, 150, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -114,6 +160,17 @@ public class Product extends javax.swing.JFrame {
     private void tfProductName1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfProductName1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tfProductName1ActionPerformed
+
+    private void productTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_productTableMouseClicked
+        // TODO add your handling code here:
+         DefaultTableModel model =  (DefaultTableModel)productTable.getModel();
+        int selectRow = productTable.getSelectedRow();
+        String id = model.getValueAt(selectRow, 0).toString();
+         System.out.println("id " +id);
+        UpdateProduct update = new UpdateProduct(Integer.valueOf(id));
+        update.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_productTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -152,9 +209,11 @@ public class Product extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddProduct;
+    private javax.swing.JComboBox<String> comboBox;
+    private javax.swing.JLabel comboBoxItem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable productTable;
     private javax.swing.JTextField tfDescription;
     private javax.swing.JTextField tfPrice;
     private javax.swing.JTextField tfProductName1;
